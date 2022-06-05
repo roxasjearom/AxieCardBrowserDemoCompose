@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:id="@+id/mainCard"
+        android:layout_width="182dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/cd_card_background"
+        android:scaleType="fitXY"
+        android:src="@drawable/card_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cardName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/topDescriptionGuide"
+        app:layout_constraintEnd_toEndOf="@+id/mainCard"
+        app:layout_constraintStart_toStartOf="@id/mainCard"
+        tools:text="Papi" />
+
+    <TextView
+        android:id="@+id/cardDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@id/bottomDescriptionGuide"
+        app:layout_constraintEnd_toEndOf="@id/mainCard"
+        app:layout_constraintStart_toStartOf="@id/mainCard"
+        app:layout_constraintTop_toTopOf="@id/topDescriptionGuide"
+        tools:text="Target any ally. Whenever this is drawn, restore 20 HP." />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topDescriptionGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="86dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomDescriptionGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

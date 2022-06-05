@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Axie Card Browser Demo</string>
+    <string name="toolbar_title_cards">Cards</string>
+    <string name="no_result">No result</string>
+
+    <string name="aqua">Aquatic</string>
+    <string name="bird">Bird</string>
+    <string name="beast">Beast</string>
+    <string name="bug">Bug</string>
+    <string name="plant">Plant</string>
+    <string name="reptile">Reptile</string>
+
+    <string name="part_eyes">Eyes</string>
+    <string name="part_ears">Ears</string>
+    <string name="part_back">Back</string>
+    <string name="part_mouth">Mouth</string>
+    <string name="part_horn">Horn</string>
+    <string name="part_tail">Tail</string>
+    <string name="filter_handle">Filter handle</string>
+    <string name="label_class">Class</string>
+    <string name="label_clear">Clear</string>
+    <string name="label_body_part">Body Part</string>
+    <string name="cd_card_background">Card background</string>
+</resources>
