@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -28,7 +27,10 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.roxasjearom.axiecardbrowserdemo.compose.R
+import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClassFilter
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.OriginCard
+import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartTypeFilter
+import com.roxasjearom.axiecardbrowserdemo.compose.ui.theme.AxieCardBrowserDemoTheme
 
 @Composable
 fun OriginCardScreen(cardViewModel: CardViewModel = viewModel()) {
@@ -36,6 +38,32 @@ fun OriginCardScreen(cardViewModel: CardViewModel = viewModel()) {
         cards = cardViewModel.cardsUiState.collectAsState().value.cards,
         modifier = Modifier.fillMaxSize()
     )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun OriginCardScreenWithBottomSheet(cardViewModel: CardViewModel = viewModel()) {
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            CardFilterBottomSheet(
+                onCardClassClicked = { clickedCardClass ->
+                    cardViewModel.filterCards(CardClassFilter(clickedCardClass.name, clickedCardClass))
+                },
+                onPartTypeClicked = { clickedPartType ->
+                    cardViewModel.filterCards(PartTypeFilter(clickedPartType.name, clickedPartType))
+                }
+            )
+        }, sheetPeekHeight = 96.dp
+    ) {
+        OriginCardList(
+            cards = cardViewModel.cardsUiState.collectAsState().value.cards,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }
 
 @Composable
@@ -111,11 +139,15 @@ fun ComposeOriginCard(card: OriginCard) {
 @Preview(showBackground = true, widthDp = 320, heightDp = 320)
 @Composable
 fun CardPreview() {
-    ComposeOriginCard(fakeCardList.first())
+    AxieCardBrowserDemoTheme {
+        ComposeOriginCard(fakeCardList.first())
+    }
 }
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
 fun CardListPreview() {
-    OriginCardList(cards = fakeCardList)
+    AxieCardBrowserDemoTheme {
+        OriginCardList(cards = fakeCardList)
+    }
 }

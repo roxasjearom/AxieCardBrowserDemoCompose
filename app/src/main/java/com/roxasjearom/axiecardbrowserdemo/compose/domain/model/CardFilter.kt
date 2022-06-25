@@ -6,8 +6,8 @@ class PartTypeFilter(id: String, val partType: PartType) : CardFilter(id)
 
 enum class CardClass {
     AQUATIC,
-    BIRD,
     BEAST,
+    BIRD,
     BUG,
     PLANT,
     REPTILE,
