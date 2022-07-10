@@ -25,8 +25,6 @@ class CardViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000)
     )
 
-    private val cardFilters = mutableListOf<CardFilter>()
-
     init {
         fetchOriginData()
         getCards()
@@ -69,24 +67,21 @@ class CardViewModel @Inject constructor(
 
     fun filterCards(newFilter: CardFilter) {
         viewModelScope.launch(dispatcherProvider.io) {
+            val cardFilters = _cardsUiState.value.chipItems
             updateFilters(newFilter, cardFilters)
 
             val filteredCards =
-                if (cardFilters.isEmpty()) {
+                if (cardFilters.none { it.isSelected }) {
                     completeCards
                 } else {
-                    val filteredList = mutableListOf<OriginCard>()
                     completeCards.filter { card ->
-                        isCardValid(card, cardFilters)
-                    }.forEach { validCard ->
-                        filteredList.add(validCard)
+                        isCardValid(card, cardFilters.filter { it.isSelected })
                     }
-                    filteredList
                 }
             _cardsUiState.update { currentUiState ->
                 currentUiState.copy(
                     cards = filteredCards,
-                    hasFilter = cardFilters.isNotEmpty(),
+                    hasFilter = cardFilters.any { it.isSelected },
                 )
             }
         }
@@ -94,35 +89,41 @@ class CardViewModel @Inject constructor(
 
     private fun updateFilters(
         newFilter: CardFilter,
-        filterList: MutableList<CardFilter>
+        chipItems: List<ChipItem>
     ) {
         val filter = when (newFilter) {
-            is CardClassFilter -> CardClassFilter(newFilter.id, newFilter.cardClass)
-            is PartTypeFilter -> PartTypeFilter(newFilter.id, newFilter.partType)
+            is CardClassFilter -> CardClassFilter(
+                newFilter.id,
+                newFilter.cardClass
+            )
+            is PartTypeFilter -> PartTypeFilter(
+                newFilter.id,
+                newFilter.partType
+            )
         }
-        val item = filterList.find { it.id == filter.id }
-        if (filterList.contains(item)) {
-            filterList.remove(item)
-        } else {
-            filterList.add(filter)
+        val item = chipItems.find { it.cardFilter.id == filter.id }
+        item?.let {
+            it.isSelected = !it.isSelected
         }
     }
 
-    private fun isCardValid(card: OriginCard, filterList: MutableList<CardFilter>): Boolean {
+    private fun isCardValid(card: OriginCard, chipItems: List<ChipItem>): Boolean {
         val booleanList = mutableListOf<Boolean>()
 
-        for (filter in filterList) {
-            when (filter) {
+        for (menuItem in chipItems) {
+            when (menuItem.cardFilter) {
                 is CardClassFilter -> {
                     booleanList.add(
-                        filterList.filterIsInstance<CardClassFilter>()
-                            .any { it.cardClass == card.cardClass.toCardClass() }
+                        chipItems.filter { it.cardFilter is CardClassFilter }.any {
+                            (it.cardFilter as CardClassFilter).cardClass == card.cardClass.toCardClass()
+                        }
                     )
                 }
                 is PartTypeFilter -> {
                     booleanList.add(
-                        filterList.filterIsInstance<PartTypeFilter>()
-                            .any { it.partType == card.partType.toPartType() }
+                        chipItems.filter { it.cardFilter is PartTypeFilter }.any {
+                            (it.cardFilter as PartTypeFilter).partType == card.partType.toPartType()
+                        }
                     )
                 }
             }
@@ -131,11 +132,11 @@ class CardViewModel @Inject constructor(
     }
 
     fun clearFilters() {
-        cardFilters.clear()
         _cardsUiState.update { currentUiState ->
             currentUiState.copy(
                 cards = completeCards,
                 hasFilter = false,
+                chipItems = getCardFilters()
             )
         }
     }
@@ -147,9 +148,36 @@ class CardViewModel @Inject constructor(
     }
 }
 
+private fun getCardFilters(): List<ChipItem> {
+    val chipItems = mutableListOf<ChipItem>()
+    CardClass.values().forEach { cardClass ->
+        chipItems.add(
+            ChipItem(
+                cardFilter = CardClassFilter(cardClass.name, cardClass),
+                isSelected = false
+            )
+        )
+    }
+    PartType.values().forEach { partType ->
+        chipItems.add(
+            ChipItem(
+                cardFilter = PartTypeFilter(partType.name, partType),
+                isSelected = false
+            )
+        )
+    }
+    return chipItems
+}
+
 data class CardsUiState(
     val cards: List<OriginCard> = emptyList(),
     val isLoading: Boolean = false,
     val hasFilter: Boolean = false,
     val message: String? = null,
+    val chipItems: List<ChipItem> = getCardFilters(),
+)
+
+data class ChipItem(
+    val cardFilter: CardFilter,
+    var isSelected: Boolean,
 )

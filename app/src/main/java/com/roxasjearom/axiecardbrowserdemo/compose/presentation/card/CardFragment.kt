@@ -12,12 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.roxasjearom.axiecardbrowserdemo.compose.databinding.FragmentCardBinding
-import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClass
-import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClassFilter
-import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartType
-import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartTypeFilter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -79,7 +74,7 @@ class CardFragment : Fragment() {
     }
 
     private fun setBottomSheetFilters() {
-        with(binding.bottomSheetFilters) {
+        /*with(binding.bottomSheetFilters) {
             chipAqua.setOnClickListener {
                 viewModel.filterCards(CardClassFilter(CardClass.AQUATIC.name, CardClass.AQUATIC))
             }
@@ -123,7 +118,7 @@ class CardFragment : Fragment() {
                 classChipGroup.clearCheck()
                 bodyPartsChipGroup.clearCheck()
             }
-        }
+        }*/
     }
 
     override fun onDestroyView() {

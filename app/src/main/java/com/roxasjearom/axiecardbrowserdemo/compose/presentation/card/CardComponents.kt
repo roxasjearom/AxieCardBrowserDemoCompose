@@ -1,15 +1,14 @@
 package com.roxasjearom.axiecardbrowserdemo.compose.presentation.card
 
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -22,49 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.roxasjearom.axiecardbrowserdemo.compose.R
-import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClassFilter
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.OriginCard
-import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartTypeFilter
 import com.roxasjearom.axiecardbrowserdemo.compose.ui.theme.AxieCardBrowserDemoTheme
-
-@Composable
-fun OriginCardScreen(cardViewModel: CardViewModel = viewModel()) {
-    OriginCardList(
-        cards = cardViewModel.cardsUiState.collectAsState().value.cards,
-        modifier = Modifier.fillMaxSize()
-    )
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun OriginCardScreenWithBottomSheet(cardViewModel: CardViewModel = viewModel()) {
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
-    BottomSheetScaffold(
-        scaffoldState = bottomSheetScaffoldState,
-        sheetContent = {
-            CardFilterBottomSheet(
-                onCardClassClicked = { clickedCardClass ->
-                    cardViewModel.filterCards(CardClassFilter(clickedCardClass.name, clickedCardClass))
-                },
-                onPartTypeClicked = { clickedPartType ->
-                    cardViewModel.filterCards(PartTypeFilter(clickedPartType.name, clickedPartType))
-                }
-            )
-        }, sheetPeekHeight = 96.dp
-    ) {
-        OriginCardList(
-            cards = cardViewModel.cardsUiState.collectAsState().value.cards,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
 
 @Composable
 fun OriginCardList(
@@ -104,7 +66,7 @@ fun ComposeOriginCard(card: OriginCard) {
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .width(182.dp)
-                .aspectRatio(0.65f)
+                .aspectRatio(0.65f) //image width divided by height
                 .constrainAs(mainCardImage) {
                     top.linkTo(parent.top)
                 }
@@ -132,7 +94,6 @@ fun ComposeOriginCard(card: OriginCard) {
                 width = Dimension.fillToConstraints
             }
         )
-
     }
 }
 

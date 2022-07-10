@@ -1,11 +1,11 @@
 package com.roxasjearom.axiecardbrowserdemo.compose.presentation.card
 
 import com.google.common.truth.Truth.assertThat
+import com.roxasjearom.axiecardbrowserdemo.compose.MainDispatcherRule
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClass
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClassFilter
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartType
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartTypeFilter
-import com.roxasjearom.axiecardbrowserdemo.compose.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -30,9 +30,10 @@ class CardViewModelTest {
 
     @Test
     fun `Should filter correctly with a filter`() = runTest {
-        cardViewModel.filterCards(CardClassFilter("beast", CardClass.BEAST))
+        cardViewModel.filterCards(CardClassFilter(CardClass.BEAST.name, CardClass.BEAST))
 
         val actualState = cardViewModel.cardsUiState.first()
+        assertThat(actualState.chipItems.filter { it.isSelected }.size).isEqualTo(1)
         //FakeCardData has 1 Beast card
         assertThat(actualState.cards.size).isEqualTo(1)
         assertThat(actualState.hasFilter).isTrue()
@@ -40,10 +41,11 @@ class CardViewModelTest {
 
     @Test
     fun `Should filter correctly with multiple filter`() = runTest {
-        cardViewModel.filterCards(CardClassFilter("bird", CardClass.BIRD))
-        cardViewModel.filterCards(PartTypeFilter("back", PartType.BACK))
+        cardViewModel.filterCards(CardClassFilter(CardClass.BIRD.name, CardClass.BIRD))
+        cardViewModel.filterCards(PartTypeFilter(PartType.BACK.name, PartType.BACK))
 
         val actualState = cardViewModel.cardsUiState.first()
+        assertThat(actualState.chipItems.filter { it.isSelected }.size).isEqualTo(2)
         //FakeCardData has 1 Bird card with back part
         assertThat(actualState.cards.size).isEqualTo(1)
         assertThat(actualState.hasFilter).isTrue()
