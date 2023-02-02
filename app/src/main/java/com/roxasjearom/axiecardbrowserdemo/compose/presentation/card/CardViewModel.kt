@@ -107,21 +107,21 @@ class CardViewModel @Inject constructor(
         }
     }
 
-    private fun isCardValid(card: OriginCard, chipItems: List<ChipItem>): Boolean {
+    private fun isCardValid(card: OriginCard, filters: List<ChipItem>): Boolean {
         val booleanList = mutableListOf<Boolean>()
 
-        for (menuItem in chipItems) {
-            when (menuItem.cardFilter) {
+        for (filter in filters) {
+            when (filter.cardFilter) {
                 is CardClassFilter -> {
                     booleanList.add(
-                        chipItems.filter { it.cardFilter is CardClassFilter }.any {
+                        filters.filter { it.cardFilter is CardClassFilter }.any {
                             (it.cardFilter as CardClassFilter).cardClass == card.cardClass.toCardClass()
                         }
                     )
                 }
                 is PartTypeFilter -> {
                     booleanList.add(
-                        chipItems.filter { it.cardFilter is PartTypeFilter }.any {
+                        filters.filter { it.cardFilter is PartTypeFilter }.any {
                             (it.cardFilter as PartTypeFilter).partType == card.partType.toPartType()
                         }
                     )

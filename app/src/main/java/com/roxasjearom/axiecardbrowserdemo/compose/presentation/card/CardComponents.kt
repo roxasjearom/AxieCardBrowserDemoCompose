@@ -54,7 +54,7 @@ fun ComposeOriginCard(card: OriginCard) {
         val startGuideLine = createGuidelineFromStart(0.4f)
 
         val imageUrl =
-            "https://cdn.axieinfinity.com/game/origin-cards/base/version-20220422/${card.cardImage}"
+            "https://cdn.axieinfinity.com/game/origin-cards/base/origin-cards-20220928/${card.cardImage}"
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl)
