@@ -8,13 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,7 +69,6 @@ fun StatefulCardFilterChip(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessCardFilterChip(
     chipItem: ChipItem,
@@ -85,7 +80,7 @@ fun StatelessCardFilterChip(
         onClick = {
             onChipClicked(chipItem)
         },
-        border = FilterChipDefaults.filterChipBorder(),
+        border = FilterChipDefaults.filterChipBorder(enabled = true, selected = chipItem.isSelected),
         leadingIcon = {
             Image(
                 painter = painterResource(id = icon),
@@ -93,9 +88,6 @@ fun StatelessCardFilterChip(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(16.dp)
             )
-        },
-        selectedIcon = {
-            Icon(Icons.Rounded.Check, contentDescription = null)
         },
         label = {
             Text(text = chipItem.cardFilter.id.lowercase().replaceFirstChar { it.uppercase() })
