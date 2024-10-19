@@ -2,20 +2,19 @@ package com.roxasjearom.axiecardbrowserdemo.compose.presentation.card
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.CardClassFilter
 import com.roxasjearom.axiecardbrowserdemo.compose.domain.model.PartTypeFilter
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OriginCardScreenWithBottomSheet(cardViewModel: CardViewModel = viewModel()) {
+fun OriginCardScreenWithBottomSheet(cardViewModel: CardViewModel) {
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
 
     val cardClassFilters = cardViewModel.cardsUiState.collectAsState().value.chipItems.filter { it.cardFilter is CardClassFilter }
@@ -38,7 +37,7 @@ fun OriginCardScreenWithBottomSheet(cardViewModel: CardViewModel = viewModel()) 
                     cardViewModel.clearFilters()
                 }
             )
-        }, sheetPeekHeight = 96.dp
+        }, sheetPeekHeight = 132.dp
     ) {
         OriginCardList(
             cards = cardViewModel.cardsUiState.collectAsState().value.cards,

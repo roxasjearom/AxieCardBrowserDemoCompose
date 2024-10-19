@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -73,7 +73,7 @@ fun ComposeOriginCard(card: OriginCard) {
         )
         Text(
             text = card.cardName,
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.bodyMedium,
             color = Color.White,
             modifier = Modifier.constrainAs(cardNameText) {
                 start.linkTo(startGuideLine)
@@ -84,7 +84,7 @@ fun ComposeOriginCard(card: OriginCard) {
             text = card.cardText.orEmpty(),
             textAlign = TextAlign.Center,
             color = Color.White,
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             fontSize = 11.sp,
             modifier = Modifier.constrainAs(cardDescriptionText) {
                 top.linkTo(midGuideLine)

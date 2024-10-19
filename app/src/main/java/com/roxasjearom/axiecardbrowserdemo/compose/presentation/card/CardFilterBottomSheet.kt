@@ -1,15 +1,22 @@
 package com.roxasjearom.axiecardbrowserdemo.compose.presentation.card
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,14 +42,6 @@ fun CardFilterBottomSheet(
             .height(180.dp)
             .padding(bottom = 16.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_drag_handle),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 8.dp)
-        )
-
         if (hasFilter) {
             TextButton(
                 modifier = Modifier
@@ -64,7 +63,7 @@ fun CardFilterBottomSheet(
         Column {
             Text(
                 text = stringResource(id = R.string.label_class),
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(8.dp)
             )
 
@@ -80,7 +79,7 @@ fun CardFilterBottomSheet(
 
             Text(
                 text = stringResource(id = R.string.label_body_part),
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(8.dp)
             )
 
